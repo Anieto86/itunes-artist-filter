@@ -1,11 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-export class ItunesApiException extends HttpException {
-  constructor(message = 'iTunes API is temporarily unavailable') {
-    super(message, HttpStatus.BAD_GATEWAY);
-  }
-}
-
 export class ArtistNotFoundException extends HttpException {
   constructor(letter: string) {
     super(

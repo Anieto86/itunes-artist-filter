@@ -15,8 +15,14 @@ export class ArtistsFilterService {
     const currentDayLetter = this.dateService.getCurrentDayLetter();
 
     // Filter artists whose name starts with the current day's letter
-    const filteredArtists = artistsData.results.filter((artist: any) =>
-      artist.artistName.startsWith(currentDayLetter)
+    // Format guard: ensure results is an array
+    if (!Array.isArray(artistsData?.results)) {
+      console.warn('Unexpected format: artistsData.results is not an array');
+      return [];
+    }
+
+    const filteredArtists = artistsData.results.filter((artist: ArtistDto) =>
+      artist.artistName?.toUpperCase().startsWith(currentDayLetter)
     );
 
     console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);
@@ -36,8 +42,22 @@ export class ArtistsFilterService {
     const currentDayLetter = this.dateService.getCurrentDayLetter();
 
     // Filter artists whose name starts with the current day's letter
-    const filteredArtists = artistsData.results.filter((artist: any) =>
-      artist.artistName.startsWith(currentDayLetter)
+    // Format guard: ensure results is an array
+    if (!Array.isArray(artistsData?.results)) {
+      console.warn('Unexpected format: artistsData.results is not an array');
+      return {
+        success: true,
+        message: `No artists found (unexpected format) for "${currentDayLetter}" on ${currentDay}`,
+        currentDay,
+        filterLetter: currentDayLetter,
+        totalArtistsFound: 0,
+        artists: [],
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    const filteredArtists = artistsData.results.filter((artist: ArtistDto) =>
+      artist.artistName?.toUpperCase().startsWith(currentDayLetter)
     );
 
     console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);
