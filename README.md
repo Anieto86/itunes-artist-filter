@@ -66,6 +66,7 @@ pnpm run format
 pnpm run lint
 ```
 
+
 #### npm commands
 ```bash
 # Development with hot reload
@@ -79,6 +80,23 @@ npm run format
 # Linting
 npm run lint
 ```
+
+## 🧪 Testing
+
+This project uses **Jest** for unit testing.
+
+### How to run tests
+
+```bash
+pnpm test
+```
+or
+```bash
+npm test
+```
+
+- All test files should be named `*.spec.ts`.
+- Example: `src/shared/services/date.service.spec.ts` tests the day letter logic.
 
 ## 🌐 API Documentation
 
