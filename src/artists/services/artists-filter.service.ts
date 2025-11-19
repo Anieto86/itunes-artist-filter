@@ -7,7 +7,7 @@ import { ItunesApiService } from './itunes-api.service';
 export class ArtistsFilterService {
   constructor(
     private itunesApiService: ItunesApiService,
-    private dateService: DateService,
+    private dateService: DateService
   ) {}
 
   async getFilteredArtists() {
@@ -16,13 +16,16 @@ export class ArtistsFilterService {
 
     // Filter artists whose name starts with the current day's letter
     const filteredArtists = artistsData.results.filter((artist: any) =>
-      artist.artistName.startsWith(currentDayLetter),
+      artist.artistName.startsWith(currentDayLetter)
     );
 
     console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);
     console.log(`📊 Total artists: ${artistsData.results.length}`);
     console.log(`✅ Filtered artists: ${filteredArtists.length}`);
-    console.log('🎵 Artists found:', filteredArtists.map(a => a.artistName));
+    console.log(
+      '🎵 Artists found:',
+      filteredArtists.map((a) => a.artistName)
+    );
 
     return filteredArtists;
   }
@@ -34,16 +37,19 @@ export class ArtistsFilterService {
 
     // Filter artists whose name starts with the current day's letter
     const filteredArtists = artistsData.results.filter((artist: any) =>
-      artist.artistName.startsWith(currentDayLetter),
+      artist.artistName.startsWith(currentDayLetter)
     );
 
     console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);
     console.log(`📊 Total artists: ${artistsData.results.length}`);
     console.log(`✅ Filtered artists: ${filteredArtists.length}`);
-    console.log('🎵 Artists found:', filteredArtists.map(a => a.artistName));
+    console.log(
+      '🎵 Artists found:',
+      filteredArtists.map((a) => a.artistName)
+    );
 
     // Transform to DTOs
-    const artistDtos: ArtistDto[] = filteredArtists.map(artist => ({
+    const artistDtos: ArtistDto[] = filteredArtists.map((artist) => ({
       artistId: artist.artistId,
       artistName: artist.artistName,
       artistLinkUrl: artist.artistLinkUrl,
