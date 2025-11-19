@@ -23,7 +23,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message =
         typeof errorResponse === 'string'
           ? errorResponse
-          : (errorResponse as any).message || 'Unknown error';
+          : (errorResponse as { message?: string }).message || 'Unknown error';
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       message = 'Internal server error';
