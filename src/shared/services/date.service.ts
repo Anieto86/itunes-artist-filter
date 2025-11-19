@@ -9,9 +9,7 @@ export class DateService {
   }
 
   getCurrentDayLetter(): string {
-   const currentDay = this.getCurrentDay().trim();
-   return currentDay.charAt(0).toUpperCase();
+    const currentDay = this.getCurrentDay().trim();
+    return currentDay.charAt(0).toUpperCase();
   }
 }
-
-

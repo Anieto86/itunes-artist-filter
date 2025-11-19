@@ -3,9 +3,6 @@ import { ArtistsModule } from './artists/artists.module';
 import { ConfigModule } from './config/config.module';
 
 @Module({
-  imports: [
-    ConfigModule,
-    ArtistsModule,
-  ],
+  imports: [ConfigModule, ArtistsModule],
 })
 export class AppModule {}

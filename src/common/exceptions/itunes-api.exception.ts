@@ -8,7 +8,7 @@ export class ItunesApiException extends HttpException {
         message,
         error: 'iTunes API Service Unavailable',
       },
-      HttpStatus.SERVICE_UNAVAILABLE,
+      HttpStatus.SERVICE_UNAVAILABLE
     );
   }
 }

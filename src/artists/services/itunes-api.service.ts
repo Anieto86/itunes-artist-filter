@@ -6,18 +6,14 @@ import { firstValueFrom } from 'rxjs';
 export class ItunesApiService {
   constructor(private httpService: HttpService) {}
   // Service methods
- async fetchArtists() {
-
-
-  try{
-     const response = await firstValueFrom(this.httpService.get('https://itunes.apple.com/search?term=artist&entity=musicArtist'));
- return response?.data || [];
+  async fetchArtists() {
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get('https://itunes.apple.com/search?term=artist&entity=musicArtist')
+      );
+      return response?.data || [];
+    } catch (error) {
+      throw new Error('Error fetching artists from iTunes API');
+    }
   }
-
-  catch (error){
-    throw new Error('Error fetching artists from iTunes API');
-  }
-
-  }
-
 }

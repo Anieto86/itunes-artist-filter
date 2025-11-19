@@ -7,7 +7,13 @@ export class ArtistDto {
   readonly primaryGenreName?: string;
   readonly artistName?: string;
 
-  constructor(id: number, name: string, genre: string, primaryGenreName?: string, artistName?: string) {
+  constructor(
+    id: number,
+    name: string,
+    genre: string,
+    primaryGenreName?: string,
+    artistName?: string
+  ) {
     this.id = id;
     this.name = name;
     this.genre = genre;

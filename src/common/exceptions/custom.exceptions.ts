@@ -8,7 +8,10 @@ export class ItunesApiException extends HttpException {
 
 export class ArtistNotFoundException extends HttpException {
   constructor(letter: string) {
-    super(`No artists found for letter '${letter}' on ${new Date().toLocaleDateString()}`, HttpStatus.NOT_FOUND);
+    super(
+      `No artists found for letter '${letter}' on ${new Date().toLocaleDateString()}`,
+      HttpStatus.NOT_FOUND
+    );
   }
 }
 

@@ -19,9 +19,7 @@ export class ArtistsService {
       return response.data;
     } catch (error) {
       // TODO: refine error handling later
-      throw new InternalServerErrorException(
-        'Failed to fetch artists from iTunes',
-      );
+      throw new InternalServerErrorException('Failed to fetch artists from iTunes');
     }
   }
 }
