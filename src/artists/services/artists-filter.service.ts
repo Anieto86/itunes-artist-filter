@@ -18,7 +18,11 @@ export class ArtistsFilterService {
       artist.artistName.startsWith(currentDayLetter),
     );
 
-    console.log(artistsData.results.length, filteredArtists.length);
-      return filteredArtists;
+    console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);
+    console.log(`📊 Total artists: ${artistsData.results.length}`);
+    console.log(`✅ Filtered artists: ${filteredArtists.length}`);
+    console.log('🎵 Artists found:', filteredArtists.map(a => a.artistName));
+
+    return filteredArtists;
     }
   }
