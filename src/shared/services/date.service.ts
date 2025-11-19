@@ -10,9 +10,15 @@ export class DateService {
 
   getCurrentDayLetter(): string {
    const currentDay = this.getCurrentDay();
-   return currentDay.charAt(0);
+   const dayAbbreviations: { [key: string]: string } = {
+     'Sunday': 'Su',
+     'Monday': 'Mo',
+     'Tuesday': 'Tu',
+     'Wednesday': 'We',
+     'Thursday': 'Th',
+     'Friday': 'Fr',
+     'Saturday': 'Sa'
+   };
+   return dayAbbreviations[currentDay] || currentDay.substring(0, 2);
   }
 }
-
-
-// todo  need to solve the issue whit Tuesday Thursday there are two T letters
