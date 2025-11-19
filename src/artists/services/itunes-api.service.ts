@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
+import { ItunesApiException } from '../../common/exceptions/itunes-api.exception';
 
 @Injectable()
 export class ItunesApiService {
@@ -13,7 +14,7 @@ export class ItunesApiService {
       );
       return response?.data || [];
     } catch (error) {
-      throw new Error('Error fetching artists from iTunes API');
+      throw new ItunesApiException('Failed to fetch artists from iTunes API');
     }
   }
 }
