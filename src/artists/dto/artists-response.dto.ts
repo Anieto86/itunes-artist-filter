@@ -1,3 +1,4 @@
+//DTO for filtered artists response
 export class ArtistDto {
   artistId!: number;
   artistName!: string;
