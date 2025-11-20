@@ -1,14 +1,17 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class ItunesApiException extends HttpException {
-  constructor(message: string = 'iTunes API error') {
+  constructor(
+    message: string = 'iTunes API error',
+    status: number = HttpStatus.SERVICE_UNAVAILABLE
+  ) {
     super(
       {
-        statusCode: HttpStatus.SERVICE_UNAVAILABLE,
+        statusCode: status,
         message,
         error: 'iTunes API Service Unavailable',
       },
-      HttpStatus.SERVICE_UNAVAILABLE
+      status
     );
   }
 }
