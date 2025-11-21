@@ -46,6 +46,9 @@ export class ArtistsFilterService {
     limit = 10,
     genre?: string,
   ): Promise<FilteredArtistsResponseDto> {
+    // Sanitize page/limit to avoid NaN or invalid values
+    page = Number.isNaN(page) || page < 1 ? 1 : Math.floor(page);
+    limit = Number.isNaN(limit) || limit < 1 ? 10 : Math.floor(limit);
     const artistsData = await this.itunesApiService.fetchArtists();
     const currentDay = this.dateService.getCurrentDay();
     const currentDayLetter = this.dateService.getCurrentDayLetter();

@@ -44,7 +44,7 @@ describe("ItunesApiService", () => {
     (httpService.get as jest.Mock).mockReturnValue(throwError(() => ({ response: {} })));
     await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
     await expect(service.fetchArtists()).rejects.toMatchObject({
-      response: expect.objectContaining({ statusCode: 503 }),
+      response: expect.objectContaining({ statusCode: 502 }),
     });
   });
 

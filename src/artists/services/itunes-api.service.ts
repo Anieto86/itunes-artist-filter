@@ -1,8 +1,8 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { catchError, delay, firstValueFrom, of, retry, throwError, timeout } from "rxjs";
 import { AxiosError } from "axios";
+import { catchError, delay, firstValueFrom, of, retry, throwError, timeout } from "rxjs";
 import { ItunesApiException } from "../../common/exceptions/itunes-api.exception";
 
 @Injectable()
@@ -25,9 +25,13 @@ export class ItunesApiService {
           retry({
             count: maxRetries,
             delay: (error) => {
+              // If maxRetries is 0, do not retry
+              if (maxRetries === 0) {
+                return throwError(() => error);
+              }
               // Only retry on 5xx errors or timeout
               if (error?.response?.status >= 500 || error?.name === "TimeoutError") {
-                return of(true).pipe(delay(500)); // 500ms entre reintentos
+                return of(true).pipe(delay(500)); // 500ms between retries
               }
               return throwError(() => error);
             },
