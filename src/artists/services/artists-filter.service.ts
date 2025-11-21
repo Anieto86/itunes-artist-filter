@@ -42,7 +42,7 @@ export class ArtistsFilterService {
     return filteredArtists;
   }
 
-  async getFilteredArtistsWithMetadata(): Promise<FilteredArtistsResponseDto> {
+  async getFilteredArtistsWithMetadata(page = 1, limit = 10): Promise<FilteredArtistsResponseDto> {
     const artistsData = await this.itunesApiService.fetchArtists();
     const currentDay = this.dateService.getCurrentDay();
     const currentDayLetter = this.dateService.getCurrentDayLetter();
@@ -72,8 +72,13 @@ export class ArtistsFilterService {
       filteredArtists.map((a) => a.artistName)
     );
 
+    // Paginación
+    const start = (page - 1) * limit;
+    const end = start + limit;
+    const pagedArtists = filteredArtists.slice(start, end);
+
     // Transform to DTOs
-    const artistDtos: ArtistDto[] = filteredArtists.map((artist) => ({
+    const artistDtos: ArtistDto[] = pagedArtists.map((artist) => ({
       artistId: artist.artistId,
       artistName: artist.artistName,
       artistLinkUrl: artist.artistLinkUrl,

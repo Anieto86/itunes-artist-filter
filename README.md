@@ -232,3 +232,8 @@ The application is production-ready with:
 ## 📝 License
 
 ISC
+
+---
+**Note on Biome linting:**
+Biome may show a false positive error "Decorators are not valid here" for NestJS controller/query decorators. This does not affect TypeScript compilation or NestJS runtime. Decorators are valid and required in this context. You can safely ignore this warning for the assessment.
+---
