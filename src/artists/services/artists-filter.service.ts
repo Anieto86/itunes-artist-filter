@@ -36,7 +36,9 @@ export class ArtistsFilterService {
     console.log(`✅ Filtered artists: ${filteredArtists.length}`);
     console.log(
       "🎵 Artists found:",
-      filteredArtists.map((a) => a.artistName),
+      (filteredArtists as Array<{ artistName: string }>).map(
+        (a: { artistName: string }) => a.artistName,
+      ),
     );
 
     return filteredArtists;
@@ -81,7 +83,9 @@ export class ArtistsFilterService {
     console.log(`✅ Filtered artists: ${filteredArtists.length}`);
     console.log(
       "🎵 Artists found:",
-      filteredArtists.map((a) => a.artistName),
+      (filteredArtists as Array<{ artistName: string }>).map(
+        (a: { artistName: string }) => a.artistName,
+      ),
     );
 
     // Paginación
@@ -90,15 +94,27 @@ export class ArtistsFilterService {
     const pagedArtists = filteredArtists.slice(start, end);
 
     // Transform to DTOs
-    const artistDtos: ArtistDto[] = pagedArtists.map((artist) => ({
-      artistId: artist.artistId,
-      artistName: artist.artistName,
-      artistLinkUrl: artist.artistLinkUrl,
-      artistType: artist.artistType,
-      primaryGenreName: artist.primaryGenreName,
-      primaryGenreId: artist.primaryGenreId,
-      amgArtistId: artist.amgArtistId,
-    }));
+    interface ArtistRaw {
+      artistId: number;
+      artistName: string;
+      artistLinkUrl?: string;
+      artistType?: string;
+      primaryGenreName?: string;
+      primaryGenreId?: number;
+      amgArtistId?: number;
+    }
+
+    const artistDtos: ArtistDto[] = pagedArtists.map(
+      (artist: ArtistRaw): ArtistDto => ({
+        artistId: artist.artistId,
+        artistName: artist.artistName,
+        artistLinkUrl: artist.artistLinkUrl,
+        artistType: artist.artistType,
+        primaryGenreName: artist.primaryGenreName,
+        primaryGenreId: artist.primaryGenreId,
+        amgArtistId: artist.amgArtistId,
+      }),
+    );
 
     // Return structured response
     return {
