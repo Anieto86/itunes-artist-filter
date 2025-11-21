@@ -235,18 +235,12 @@ pnpm run test:cov
 - ✅ **Professional Code**: DTOs, exception handling, logging
 - ✅ **Git Workflow**: Feature branches, clean commits, proper merging
 
-## 🚀 Deployment Ready
+## 🚀 Deployment Status
 
-The application is production-ready with:
-- Environment configuration
-- Error handling and logging
-- Type-safe API responses
-- Professional project structure
-- Clean git history
-
-**Note:**
-- There is no cache implemented for iTunes API responses.
-- Retry logic uses a fixed delay (500ms) and is not configurable.
+- Environment configuration, error handling, and DTO responses are in place.
+- Retry logic covers timeouts/5xx with a fixed 500ms delay; it is not yet configurable.
+- No cache layer is implemented for iTunes API responses.
+- Structure and scripts are ready for CI; update this section if caching/backoff is added.
 
 ## 📝 License
 
