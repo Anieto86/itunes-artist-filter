@@ -42,7 +42,11 @@ export class ArtistsFilterService {
     return filteredArtists;
   }
 
-  async getFilteredArtistsWithMetadata(page = 1, limit = 10): Promise<FilteredArtistsResponseDto> {
+  async getFilteredArtistsWithMetadata(
+    page = 1,
+    limit = 10,
+    genre?: string
+  ): Promise<FilteredArtistsResponseDto> {
     const artistsData = await this.itunesApiService.fetchArtists();
     const currentDay = this.dateService.getCurrentDay();
     const currentDayLetter = this.dateService.getCurrentDayLetter();
@@ -54,11 +58,19 @@ export class ArtistsFilterService {
       throw new InvalidDayException(currentDay);
     }
 
-    const filteredArtists = artistsData.results.filter(
+    let filteredArtists = artistsData.results.filter(
       (artist: ArtistDto) =>
         typeof artist.artistName === 'string' &&
         artist.artistName.toUpperCase().startsWith(currentDayLetter)
     );
+
+    if (genre) {
+      filteredArtists = filteredArtists.filter(
+        (artist: ArtistDto) =>
+          typeof artist.primaryGenreName === 'string' &&
+          artist.primaryGenreName.toLowerCase() === genre.toLowerCase()
+      );
+    }
 
     if (filteredArtists.length === 0) {
       throw new ArtistNotFoundException(currentDayLetter);

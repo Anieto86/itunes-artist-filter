@@ -21,6 +21,14 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+       "correctness": {
+"noUnusedFunctionParameters": {
+  "level": "error",
+  "options": {
+    "ignoreRestSiblings": false
+  }
+}
+      },
       "style": {
         "noNonNullAssertion": "off",
         "useImportType": "off"
