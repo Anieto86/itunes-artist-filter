@@ -11,9 +11,16 @@ export class ArtistsController {
     @Query("page") page?: string,
     @Query("limit") limit?: string,
     @Query("genre") genre?: string,
+    @Query("sort") sort?: "asc" | "desc",
   ): Promise<FilteredArtistsResponseDto> {
     const pageNum = page ? parseInt(page, 10) : 1;
     const limitNum = limit ? parseInt(limit, 10) : 10;
-    return await this.artistsFilterService.getFilteredArtistsWithMetadata(pageNum, limitNum, genre);
+    const sortOrder = sort === "desc" ? "desc" : "asc";
+    return await this.artistsFilterService.getFilteredArtistsWithMetadata(
+      pageNum,
+      limitNum,
+      genre,
+      sortOrder,
+    );
   }
 }

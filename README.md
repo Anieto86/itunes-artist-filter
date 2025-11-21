@@ -118,6 +118,21 @@ GET /artists/today
 
 **Description**: Returns artists whose names start with the first letter of the current day. Supports optional filtering by genre and pagination.
 
+**Query Parameters:**
+
+- `genre` (string, optional): Filter artists by genre (case-insensitive)
+- `page` (number, optional): Page number for pagination (default: 1)
+- `limit` (number, optional): Number of results per page (default: 10)
+- `sort` (string, optional): Sort order for artist names. Accepts `asc` (A-Z) or `desc` (Z-A). Default is `asc`.
+
+**Sorting Example:**
+```bash
+# Sort artists descending by name
+curl "http://localhost:3000/artists/today?sort=desc"
+# Sort artists ascending by name (default)
+curl "http://localhost:3000/artists/today?sort=asc"
+```
+
 **Behavior when no artists are found:**
 - The API returns a successful response (`success: true`) with an empty `artists` array and `totalArtistsFound: 0`.
 - No error is thrown; metadata fields (`currentDay`, `filterLetter`, `timestamp`) are still included.

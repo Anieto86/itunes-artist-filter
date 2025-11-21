@@ -45,6 +45,7 @@ export class ArtistsFilterService {
     page = 1,
     limit = 10,
     genre?: string,
+    sort: "asc" | "desc" = "asc",
   ): Promise<FilteredArtistsResponseDto> {
     // Sanitize page/limit to avoid NaN or invalid values
     page = Number.isNaN(page) || page < 1 ? 1 : Math.floor(page);
@@ -73,6 +74,15 @@ export class ArtistsFilterService {
           artist.primaryGenreName.toLowerCase() === genre.toLowerCase(),
       );
     }
+
+    // Sorting
+    filteredArtists = filteredArtists.sort((a: ArtistDto, b: ArtistDto) => {
+      if (!a.artistName || !b.artistName) return 0;
+      if (sort === "desc") {
+        return b.artistName.localeCompare(a.artistName);
+      }
+      return a.artistName.localeCompare(b.artistName);
+    });
 
     if (filteredArtists.length === 0) {
       return {
