@@ -1,4 +1,5 @@
 import { DateService } from "../../shared/services/date.service";
+import { ArtistDto } from "../dto/artists-response.dto";
 import { ArtistsFilterService } from "./artists-filter.service";
 import { ItunesApiService } from "./itunes-api.service";
 
@@ -19,7 +20,7 @@ describe("ArtistsFilterService", () => {
       results: [{ artistName: "Madonna" }, { artistName: "metallica" }, { artistName: "Sia" }],
     });
     const filtered = await service.getFilteredArtists();
-    expect(filtered.map((a) => a.artistName)).toEqual(["Madonna", "metallica"]);
+    expect(filtered.map((a: ArtistDto) => a.artistName)).toEqual(["Madonna", "metallica"]);
   });
 
   it("should return empty array if no matches", async () => {

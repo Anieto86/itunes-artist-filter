@@ -5,7 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from "@nestjs/common";
-import { ErrorResponseDto } from "../../artists/dto/artist.dto";
+import { ErrorResponseDto } from "src/artists/dto/error-response.dto";
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -29,7 +29,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message = "Internal server error";
     }
 
-    const errorResponse = new ErrorResponseDto(message, status);
+    const errorText = exception instanceof HttpException ? exception.name : "InternalServerError";
+    const errorResponse = new ErrorResponseDto(
+      message,
+      status,
+      new Date().toISOString(),
+      request.url,
+      errorText,
+    );
 
     console.error(`Error ${status} on ${request.method} ${request.url}:`, exception);
 
