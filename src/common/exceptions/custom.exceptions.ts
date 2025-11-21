@@ -8,9 +8,3 @@ export class ArtistNotFoundException extends HttpException {
     );
   }
 }
-
-export class InvalidDayException extends HttpException {
-  constructor(day: string) {
-    super(`Invalid day format: ${day}`, HttpStatus.BAD_REQUEST);
-  }
-}

@@ -1,8 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import {
-  ArtistNotFoundException,
-  InvalidDayException,
-} from "../../common/exceptions/custom.exceptions";
+import { ArtistNotFoundException } from "../../common/exceptions/custom.exceptions";
+import { ItunesApiException } from "../../common/exceptions/itunes-api.exception";
 import { DateService } from "../../shared/services/date.service";
 import { ArtistDto, FilteredArtistsResponseDto } from "../dto/artists-response.dto";
 import { ItunesApiService } from "./itunes-api.service";
@@ -57,7 +55,7 @@ export class ArtistsFilterService {
     // Format guard: ensure results is an array
     if (!Array.isArray(artistsData?.results)) {
       console.warn("Unexpected format: artistsData.results is not an array");
-      throw new InvalidDayException(currentDay);
+      throw new ItunesApiException("Unexpected iTunes API response format", 502);
     }
 
     let filteredArtists = artistsData.results.filter(

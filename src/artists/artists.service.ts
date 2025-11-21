@@ -30,7 +30,6 @@ export class ArtistsService {
       const response = await firstValueFrom(response$);
       return response.data;
     } catch (_error) {
-      // TODO: refine error handling later
       throw new InternalServerErrorException("Failed to fetch artists from iTunes");
     }
   }
