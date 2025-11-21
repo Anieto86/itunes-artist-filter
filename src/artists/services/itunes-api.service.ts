@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { firstValueFrom, retry, timeout } from "rxjs";
+import { catchError, delay, firstValueFrom, of, retry, throwError, timeout } from "rxjs";
 import { ItunesApiException } from "../../common/exceptions/itunes-api.exception";
 
 @Injectable()
@@ -19,7 +19,20 @@ export class ItunesApiService {
     const url = `${baseUrl}/search?term=artist&entity=musicArtist`;
     try {
       const response = await firstValueFrom(
-        this.httpService.get(url).pipe(timeout(timeoutMs), retry(maxRetries)),
+        this.httpService.get(url).pipe(
+          timeout(timeoutMs),
+          retry({
+            count: maxRetries,
+            delay: (error) => {
+              // Only retry on 5xx errors or timeout
+              if (error?.response?.status >= 500 || error?.name === "TimeoutError") {
+                return of(true).pipe(delay(500)); // 500ms entre reintentos
+              }
+              return throwError(() => error);
+            },
+          }),
+          catchError((err) => throwError(() => err)),
+        ),
       );
       // Format guard: must be object with results array
       if (!response?.data || !Array.isArray(response.data.results)) {
@@ -38,7 +51,14 @@ export class ItunesApiService {
       }
       // Axios error with response
       if (error && typeof error === "object" && "response" in error) {
-        throw new ItunesApiException("iTunes API is down or unreachable", 503);
+        // Import AxiosError from 'axios' at the top if not already imported
+        // import { AxiosError } from "axios";
+        const status = (error as import("axios").AxiosError).response?.status;
+        let message = "iTunes API is down or unreachable";
+        if (status === 502) message = "Bad Gateway from iTunes API";
+        if (status === 504) message = "iTunes API request timed out";
+        if (status === 500) message = "Internal server error from iTunes API";
+        throw new ItunesApiException(message, status || 503);
       }
       // Unexpected format error
       if (

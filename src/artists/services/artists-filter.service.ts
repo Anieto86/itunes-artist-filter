@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { ArtistNotFoundException } from "../../common/exceptions/custom.exceptions";
 import { ItunesApiException } from "../../common/exceptions/itunes-api.exception";
 import { DateService } from "../../shared/services/date.service";
 import { ArtistDto, FilteredArtistsResponseDto } from "../dto/artists-response.dto";
@@ -73,7 +72,15 @@ export class ArtistsFilterService {
     }
 
     if (filteredArtists.length === 0) {
-      throw new ArtistNotFoundException(currentDayLetter);
+      return {
+        success: true,
+        message: `No artists found starting with "${currentDayLetter}" for ${currentDay}`,
+        currentDay,
+        filterLetter: currentDayLetter,
+        totalArtistsFound: 0,
+        artists: [],
+        timestamp: new Date().toISOString(),
+      };
     }
 
     console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);

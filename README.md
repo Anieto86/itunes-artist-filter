@@ -95,8 +95,19 @@ or
 npm test
 ```
 
-- All test files should be named `*.spec.ts`.
-- Example: `src/shared/services/date.service.spec.ts` tests the day letter logic.
+All test files should be named `*.spec.ts`.
+Example: `src/shared/services/date.service.spec.ts` tests the day letter logic.
+
+#### Coverage for new logic
+
+The following test cases have been added to cover new code paths:
+
+- **Genre filtering:** Ensures only artists matching the specified genre are returned.
+- **Pagination:** Verifies correct slicing of results based on page and pageSize parameters.
+- **No artists found:** Confirms the API returns an empty array and success metadata when no matches exist.
+- **Invalid iTunes API format:** Checks that an error is thrown if the iTunes API response format is unexpected.
+
+See `src/artists/services/artists-filter.service.extra.spec.ts` for these cases.
 
 ## 🌐 API Documentation
 
@@ -105,7 +116,11 @@ npm test
 GET /artists/today
 ```
 
-**Description**: Returns artists whose names start with the first letter of the current day
+**Description**: Returns artists whose names start with the first letter of the current day. Supports optional filtering by genre and pagination.
+
+**Behavior when no artists are found:**
+- The API returns a successful response (`success: true`) with an empty `artists` array and `totalArtistsFound: 0`.
+- No error is thrown; metadata fields (`currentDay`, `filterLetter`, `timestamp`) are still included.
 
 **Response Format**:
 ```json
