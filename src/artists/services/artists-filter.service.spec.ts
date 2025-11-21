@@ -1,8 +1,8 @@
-import { DateService } from '../../shared/services/date.service';
-import { ArtistsFilterService } from './artists-filter.service';
-import { ItunesApiService } from './itunes-api.service';
+import { DateService } from "../../shared/services/date.service";
+import { ArtistsFilterService } from "./artists-filter.service";
+import { ItunesApiService } from "./itunes-api.service";
 
-describe('ArtistsFilterService', () => {
+describe("ArtistsFilterService", () => {
   let service: ArtistsFilterService;
   let dateService: DateService;
   let itunesApiService: ItunesApiService;
@@ -13,26 +13,26 @@ describe('ArtistsFilterService', () => {
     service = new ArtistsFilterService(itunesApiService, dateService);
   });
 
-  it('should filter artists by first letter of day (case-insensitive)', async () => {
-    jest.spyOn(dateService, 'getCurrentDayLetter').mockReturnValue('M');
+  it("should filter artists by first letter of day (case-insensitive)", async () => {
+    jest.spyOn(dateService, "getCurrentDayLetter").mockReturnValue("M");
     (itunesApiService.fetchArtists as jest.Mock).mockResolvedValue({
-      results: [{ artistName: 'Madonna' }, { artistName: 'metallica' }, { artistName: 'Sia' }],
+      results: [{ artistName: "Madonna" }, { artistName: "metallica" }, { artistName: "Sia" }],
     });
     const filtered = await service.getFilteredArtists();
-    expect(filtered.map((a) => a.artistName)).toEqual(['Madonna', 'metallica']);
+    expect(filtered.map((a) => a.artistName)).toEqual(["Madonna", "metallica"]);
   });
 
-  it('should return empty array if no matches', async () => {
-    jest.spyOn(dateService, 'getCurrentDayLetter').mockReturnValue('Z');
+  it("should return empty array if no matches", async () => {
+    jest.spyOn(dateService, "getCurrentDayLetter").mockReturnValue("Z");
     (itunesApiService.fetchArtists as jest.Mock).mockResolvedValue({
-      results: [{ artistName: 'Madonna' }, { artistName: 'metallica' }],
+      results: [{ artistName: "Madonna" }, { artistName: "metallica" }],
     });
     const filtered = await service.getFilteredArtists();
     expect(filtered).toEqual([]);
   });
 
-  it('should handle unexpected format (no results array)', async () => {
-    jest.spyOn(dateService, 'getCurrentDayLetter').mockReturnValue('M');
+  it("should handle unexpected format (no results array)", async () => {
+    jest.spyOn(dateService, "getCurrentDayLetter").mockReturnValue("M");
     (itunesApiService.fetchArtists as jest.Mock).mockResolvedValue({});
     const filtered = await service.getFilteredArtists();
     expect(filtered).toEqual([]);

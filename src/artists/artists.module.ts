@@ -1,9 +1,9 @@
-import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
-import { SharedModule } from '../shared/shared.module';
-import { ArtistsController } from './artists.controller';
-import { ArtistsFilterService } from './services/artists-filter.service';
-import { ItunesApiService } from './services/itunes-api.service';
+import { HttpModule } from "@nestjs/axios";
+import { Module } from "@nestjs/common";
+import { SharedModule } from "../shared/shared.module";
+import { ArtistsController } from "./artists.controller";
+import { ArtistsFilterService } from "./services/artists-filter.service";
+import { ItunesApiService } from "./services/itunes-api.service";
 
 // Flow: Request → Controller → Service → Response
 

@@ -21,29 +21,23 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-       "correctness": {
-"noUnusedFunctionParameters": {
-  "level": "error",
-  "options": {
-    "ignoreRestSiblings": false
-  }
-}
+      "correctness": {
+        "noUnusedFunctionParameters": {
+          "level": "error",
+          "options": {
+            "ignoreRestSiblings": false
+          }
+        }
       },
       "style": {
         "noNonNullAssertion": "off",
         "useImportType": "off"
-      },
-      "suspicious": {
-        "noExplicitAny": "warn"
       }
     }
   },
   "javascript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "jsxQuoteStyle": "double",
-      "semicolons": "always",
-      "trailingCommas": "es5"
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
     }
   }
 }

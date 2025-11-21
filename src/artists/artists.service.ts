@@ -1,6 +1,6 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { firstValueFrom } from 'rxjs';
+import { HttpService } from "@nestjs/axios";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { firstValueFrom } from "rxjs";
 
 interface ITunesArtist {
   artistId: number;
@@ -18,7 +18,7 @@ interface ITunesResponse {
 @Injectable()
 export class ArtistsService {
   private readonly ITUNES_API_URL =
-    'https://itunes.apple.com/search?term=music&entity=musicArtist&limit=50';
+    "https://itunes.apple.com/search?term=music&entity=musicArtist&limit=50";
 
   constructor(private readonly httpService: HttpService) {}
   // For now we just fetch raw data to inspect the iTunes payload
@@ -31,7 +31,7 @@ export class ArtistsService {
       return response.data;
     } catch (_error) {
       // TODO: refine error handling later
-      throw new InternalServerErrorException('Failed to fetch artists from iTunes');
+      throw new InternalServerErrorException("Failed to fetch artists from iTunes");
     }
   }
 }

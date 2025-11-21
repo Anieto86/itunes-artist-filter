@@ -4,8 +4,8 @@ import {
   type ExceptionFilter,
   HttpException,
   HttpStatus,
-} from '@nestjs/common';
-import { ErrorResponseDto } from '../../artists/dto/artist.dto';
+} from "@nestjs/common";
+import { ErrorResponseDto } from "../../artists/dto/artist.dto";
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -21,12 +21,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = exception.getStatus();
       const errorResponse = exception.getResponse();
       message =
-        typeof errorResponse === 'string'
+        typeof errorResponse === "string"
           ? errorResponse
-          : (errorResponse as { message?: string }).message || 'Unknown error';
+          : (errorResponse as { message?: string }).message || "Unknown error";
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
-      message = 'Internal server error';
+      message = "Internal server error";
     }
 
     const errorResponse = new ErrorResponseDto(message, status);

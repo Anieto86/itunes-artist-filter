@@ -1,17 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import {
   ArtistNotFoundException,
   InvalidDayException,
-} from '../../common/exceptions/custom.exceptions';
-import { DateService } from '../../shared/services/date.service';
-import { ArtistDto, FilteredArtistsResponseDto } from '../dto/artists-response.dto';
-import { ItunesApiService } from './itunes-api.service';
+} from "../../common/exceptions/custom.exceptions";
+import { DateService } from "../../shared/services/date.service";
+import { ArtistDto, FilteredArtistsResponseDto } from "../dto/artists-response.dto";
+import { ItunesApiService } from "./itunes-api.service";
 
 @Injectable()
 export class ArtistsFilterService {
   constructor(
     private itunesApiService: ItunesApiService,
-    private dateService: DateService
+    private dateService: DateService,
   ) {}
 
   async getFilteredArtists() {
@@ -21,22 +21,22 @@ export class ArtistsFilterService {
     // Filter artists whose name starts with the current day's letter
     // Format guard: ensure results is an array
     if (!Array.isArray(artistsData?.results)) {
-      console.warn('Unexpected format: artistsData.results is not an array');
+      console.warn("Unexpected format: artistsData.results is not an array");
       return [];
     }
 
     const filteredArtists = artistsData.results.filter(
       (artist: ArtistDto) =>
-        typeof artist.artistName === 'string' &&
-        artist.artistName.toUpperCase().startsWith(currentDayLetter)
+        typeof artist.artistName === "string" &&
+        artist.artistName.toUpperCase().startsWith(currentDayLetter),
     );
 
     console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);
     console.log(`📊 Total artists: ${artistsData.results.length}`);
     console.log(`✅ Filtered artists: ${filteredArtists.length}`);
     console.log(
-      '🎵 Artists found:',
-      filteredArtists.map((a) => a.artistName)
+      "🎵 Artists found:",
+      filteredArtists.map((a) => a.artistName),
     );
 
     return filteredArtists;
@@ -45,7 +45,7 @@ export class ArtistsFilterService {
   async getFilteredArtistsWithMetadata(
     page = 1,
     limit = 10,
-    genre?: string
+    genre?: string,
   ): Promise<FilteredArtistsResponseDto> {
     const artistsData = await this.itunesApiService.fetchArtists();
     const currentDay = this.dateService.getCurrentDay();
@@ -54,21 +54,21 @@ export class ArtistsFilterService {
     // Filter artists whose name starts with the current day's letter
     // Format guard: ensure results is an array
     if (!Array.isArray(artistsData?.results)) {
-      console.warn('Unexpected format: artistsData.results is not an array');
+      console.warn("Unexpected format: artistsData.results is not an array");
       throw new InvalidDayException(currentDay);
     }
 
     let filteredArtists = artistsData.results.filter(
       (artist: ArtistDto) =>
-        typeof artist.artistName === 'string' &&
-        artist.artistName.toUpperCase().startsWith(currentDayLetter)
+        typeof artist.artistName === "string" &&
+        artist.artistName.toUpperCase().startsWith(currentDayLetter),
     );
 
     if (genre) {
       filteredArtists = filteredArtists.filter(
         (artist: ArtistDto) =>
-          typeof artist.primaryGenreName === 'string' &&
-          artist.primaryGenreName.toLowerCase() === genre.toLowerCase()
+          typeof artist.primaryGenreName === "string" &&
+          artist.primaryGenreName.toLowerCase() === genre.toLowerCase(),
       );
     }
 
@@ -80,8 +80,8 @@ export class ArtistsFilterService {
     console.log(`📊 Total artists: ${artistsData.results.length}`);
     console.log(`✅ Filtered artists: ${filteredArtists.length}`);
     console.log(
-      '🎵 Artists found:',
-      filteredArtists.map((a) => a.artistName)
+      "🎵 Artists found:",
+      filteredArtists.map((a) => a.artistName),
     );
 
     // Paginación
