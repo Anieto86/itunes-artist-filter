@@ -34,32 +34,36 @@ describe("ItunesApiService", () => {
 
   it("should throw on timeout error", async () => {
     (httpService.get as jest.Mock).mockReturnValue(throwError(() => ({ name: "TimeoutError" })));
-    await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
-    await expect(service.fetchArtists()).rejects.toMatchObject({
+    const promise = service.fetchArtists();
+    await expect(promise).rejects.toThrow(ItunesApiException);
+    await expect(promise).rejects.toMatchObject({
       response: expect.objectContaining({ statusCode: 504 }),
     });
   });
 
   it("should throw on API downtime", async () => {
     (httpService.get as jest.Mock).mockReturnValue(throwError(() => ({ response: {} })));
-    await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
-    await expect(service.fetchArtists()).rejects.toMatchObject({
+    const promise = service.fetchArtists();
+    await expect(promise).rejects.toThrow(ItunesApiException);
+    await expect(promise).rejects.toMatchObject({
       response: expect.objectContaining({ statusCode: 502 }),
     });
   });
 
   it("should throw on unexpected format", async () => {
     (httpService.get as jest.Mock).mockReturnValue(of({ data: { foo: "bar" } }));
-    await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
-    await expect(service.fetchArtists()).rejects.toMatchObject({
+    const promise = service.fetchArtists();
+    await expect(promise).rejects.toThrow(ItunesApiException);
+    await expect(promise).rejects.toMatchObject({
       response: expect.objectContaining({ statusCode: 503 }),
     });
   });
 
   it("should throw on unknown error", async () => {
     (httpService.get as jest.Mock).mockReturnValue(throwError(() => ({ message: "Other error" })));
-    await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
-    await expect(service.fetchArtists()).rejects.toMatchObject({
+    const promise = service.fetchArtists();
+    await expect(promise).rejects.toThrow(ItunesApiException);
+    await expect(promise).rejects.toMatchObject({
       response: expect.objectContaining({ statusCode: 500 }),
     });
   });
