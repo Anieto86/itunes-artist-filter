@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom, retry, timeout } from 'rxjs';
 import { ItunesApiException } from '../../common/exceptions/itunes-api.exception';
@@ -8,7 +8,8 @@ import { ItunesApiException } from '../../common/exceptions/itunes-api.exception
 export class ItunesApiService {
   constructor(
     private httpService: HttpService,
-    private configService: ConfigService
+    private configService: ConfigService,
+      // private cacheService: CacheService
   ) {}
 
   async fetchArtists() {

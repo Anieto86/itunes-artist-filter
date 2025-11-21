@@ -1,4 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import {
+  ArtistNotFoundException,
+  InvalidDayException,
+} from '../../common/exceptions/custom.exceptions';
 import { DateService } from '../../shared/services/date.service';
 import { ArtistDto, FilteredArtistsResponseDto } from '../dto/artists-response.dto';
 import { ItunesApiService } from './itunes-api.service';
@@ -21,8 +25,10 @@ export class ArtistsFilterService {
       return [];
     }
 
-    const filteredArtists = artistsData.results.filter((artist: ArtistDto) =>
-      artist.artistName?.toUpperCase().startsWith(currentDayLetter)
+    const filteredArtists = artistsData.results.filter(
+      (artist: ArtistDto) =>
+        typeof artist.artistName === 'string' &&
+        artist.artistName.toUpperCase().startsWith(currentDayLetter)
     );
 
     console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);
@@ -45,20 +51,18 @@ export class ArtistsFilterService {
     // Format guard: ensure results is an array
     if (!Array.isArray(artistsData?.results)) {
       console.warn('Unexpected format: artistsData.results is not an array');
-      return {
-        success: true,
-        message: `No artists found (unexpected format) for "${currentDayLetter}" on ${currentDay}`,
-        currentDay,
-        filterLetter: currentDayLetter,
-        totalArtistsFound: 0,
-        artists: [],
-        timestamp: new Date().toISOString(),
-      };
+      throw new InvalidDayException(currentDay);
     }
 
-    const filteredArtists = artistsData.results.filter((artist: ArtistDto) =>
-      artist.artistName?.toUpperCase().startsWith(currentDayLetter)
+    const filteredArtists = artistsData.results.filter(
+      (artist: ArtistDto) =>
+        typeof artist.artistName === 'string' &&
+        artist.artistName.toUpperCase().startsWith(currentDayLetter)
     );
+
+    if (filteredArtists.length === 0) {
+      throw new ArtistNotFoundException(currentDayLetter);
+    }
 
     console.log(`🎯 Filtering for day letter: "${currentDayLetter}"`);
     console.log(`📊 Total artists: ${artistsData.results.length}`);
