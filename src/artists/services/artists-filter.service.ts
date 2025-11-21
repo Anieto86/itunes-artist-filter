@@ -80,6 +80,8 @@ export class ArtistsFilterService {
         totalArtistsFound: 0,
         artists: [],
         timestamp: new Date().toISOString(),
+        page,
+        limit,
       };
     }
 
@@ -124,12 +126,14 @@ export class ArtistsFilterService {
     // Return structured response
     return {
       success: true,
-      message: `Found ${filteredArtists.length} artists starting with "${currentDayLetter}" for ${currentDay}`,
+      message: `Found ${artistDtos.length} artists on page ${page} (limit ${limit}) out of ${filteredArtists.length} total starting with "${currentDayLetter}" for ${currentDay}`,
       currentDay,
       filterLetter: currentDayLetter,
       totalArtistsFound: filteredArtists.length,
       artists: artistDtos,
       timestamp: new Date().toISOString(),
+      page,
+      limit,
     };
   }
 }

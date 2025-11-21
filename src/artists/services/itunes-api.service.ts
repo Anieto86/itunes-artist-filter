@@ -2,6 +2,7 @@ import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { catchError, delay, firstValueFrom, of, retry, throwError, timeout } from "rxjs";
+import { AxiosError } from "axios";
 import { ItunesApiException } from "../../common/exceptions/itunes-api.exception";
 
 @Injectable()
@@ -51,9 +52,8 @@ export class ItunesApiService {
       }
       // Axios error with response
       if (error && typeof error === "object" && "response" in error) {
-        // Import AxiosError from 'axios' at the top if not already imported
-        // import { AxiosError } from "axios";
-        const status = (error as import("axios").AxiosError).response?.status;
+        const axiosError = error as AxiosError;
+        const status = axiosError.response?.status;
         let message = "iTunes API is down or unreachable";
         if (status === 502) message = "Bad Gateway from iTunes API";
         if (status === 504) message = "iTunes API request timed out";

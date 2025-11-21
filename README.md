@@ -5,7 +5,7 @@ NestJS REST API that fetches music artists from iTunes API and filters them base
 ## 🚀 Core Features
 
 - **Day-based Filtering**: Automatically determines current day letter (Monday → "M", Tuesday → "T") and filters artists whose names start with that letter
-- **iTunes API Integration**: Robust HTTP client with error handling and data transformation
+- **iTunes API Integration**: Robust HTTP client with error handling, data transformation, and fixed retry logic (no cache implemented)
 - **Professional Architecture**: Modular NestJS structure with dependency injection and separation of concerns
 - **Structured DTOs**: Type-safe response objects with metadata and timestamps
 - **Error Handling**: Custom exceptions and comprehensive logging
@@ -243,6 +243,10 @@ The application is production-ready with:
 - Type-safe API responses
 - Professional project structure
 - Clean git history
+
+**Note:**
+- There is no cache implemented for iTunes API responses.
+- Retry logic uses a fixed delay (500ms) and is not configurable.
 
 ## 📝 License
 

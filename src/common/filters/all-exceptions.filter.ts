@@ -5,7 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from "@nestjs/common";
-import { ErrorResponseDto } from "src/artists/dto/error-response.dto";
+import { ErrorResponseDto } from "../../artists/dto/error-response.dto";
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {

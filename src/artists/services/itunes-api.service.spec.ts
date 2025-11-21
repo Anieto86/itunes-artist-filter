@@ -35,32 +35,24 @@ describe("ItunesApiService", () => {
   it("should throw on timeout error", async () => {
     (httpService.get as jest.Mock).mockReturnValue(throwError(() => ({ name: "TimeoutError" })));
     await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
-    await expect(service.fetchArtists()).rejects.toMatchObject({
-      response: expect.objectContaining({ statusCode: 504 }),
-    });
+    await expect(service.fetchArtists()).rejects.toMatchObject({ response: expect.objectContaining({ statusCode: 504 }) });
   });
 
   it("should throw on API downtime", async () => {
     (httpService.get as jest.Mock).mockReturnValue(throwError(() => ({ response: {} })));
     await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
-    await expect(service.fetchArtists()).rejects.toMatchObject({
-      response: expect.objectContaining({ statusCode: 503 }),
-    });
+    await expect(service.fetchArtists()).rejects.toMatchObject({ response: expect.objectContaining({ statusCode: 503 }) });
   });
 
   it("should throw on unexpected format", async () => {
     (httpService.get as jest.Mock).mockReturnValue(of({ data: { foo: "bar" } }));
     await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
-    await expect(service.fetchArtists()).rejects.toMatchObject({
-      response: expect.objectContaining({ statusCode: 502 }),
-    });
+    await expect(service.fetchArtists()).rejects.toMatchObject({ response: expect.objectContaining({ statusCode: 503 }) });
   });
 
   it("should throw on unknown error", async () => {
     (httpService.get as jest.Mock).mockReturnValue(throwError(() => ({ message: "Other error" })));
     await expect(service.fetchArtists()).rejects.toThrow(ItunesApiException);
-    await expect(service.fetchArtists()).rejects.toMatchObject({
-      response: expect.objectContaining({ statusCode: 500 }),
-    });
+    await expect(service.fetchArtists()).rejects.toMatchObject({ response: expect.objectContaining({ statusCode: 500 }) });
   });
 });

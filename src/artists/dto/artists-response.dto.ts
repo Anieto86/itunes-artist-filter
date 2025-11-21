@@ -17,4 +17,6 @@ export class FilteredArtistsResponseDto {
   totalArtistsFound!: number;
   artists!: ArtistDto[];
   timestamp!: string;
+  page!: number;
+  limit!: number;
 }

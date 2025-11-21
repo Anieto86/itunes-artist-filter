@@ -26,6 +26,9 @@ describe("ArtistsFilterService (extra cases)", () => {
     const response = await service.getFilteredArtistsWithMetadata(1, 10, "Pop");
     expect(response.artists.map((a: ArtistDto) => a.artistName)).toEqual(["Madonna"]);
     expect(response.totalArtistsFound).toBe(1);
+    expect(response.page).toBe(1);
+    expect(response.limit).toBe(10);
+    expect(response.message).toMatch(/Found 1 artists on page 1/);
   });
 
   it("should paginate results", async () => {
@@ -36,6 +39,9 @@ describe("ArtistsFilterService (extra cases)", () => {
     const response = await service.getFilteredArtistsWithMetadata(2, 1);
     expect(response.artists.map((a: ArtistDto) => a.artistName)).toEqual(["Metallica"]);
     expect(response.totalArtistsFound).toBe(3);
+    expect(response.page).toBe(2);
+    expect(response.limit).toBe(1);
+    expect(response.message).toMatch(/Found 1 artists on page 2/);
   });
 
   it("should return empty array and metadata if no artists found", async () => {
@@ -47,6 +53,9 @@ describe("ArtistsFilterService (extra cases)", () => {
     expect(response.artists).toEqual([]);
     expect(response.totalArtistsFound).toBe(0);
     expect(response.success).toBe(true);
+    expect(response.page).toBe(1);
+    expect(response.limit).toBe(10);
+    expect(response.message).toMatch(/No artists found/);
   });
 
   it("should handle invalid format in getFilteredArtistsWithMetadata", async () => {
