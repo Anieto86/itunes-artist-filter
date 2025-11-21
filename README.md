@@ -136,6 +136,23 @@ curl "http://localhost:3000/artists/today?sort=desc"
 curl "http://localhost:3000/artists/today?sort=asc"
 ```
 
+**Pagination and Limit Examples:**
+```bash
+# Get first artist only (limit 1, page 1)
+curl "http://localhost:3000/artists/today?page=1&limit=1"
+# Get second artist only (limit 1, page 2)
+curl "http://localhost:3000/artists/today?page=2&limit=1"
+# Get all artists on first page (limit 2, page 1)
+curl "http://localhost:3000/artists/today?page=1&limit=2"
+# Combined examples:
+# Page 1, limit 1, descending order
+curl "http://localhost:3000/artists/today?page=1&limit=1&sort=desc"
+# Page 2, limit 1, ascending order
+curl "http://localhost:3000/artists/today?page=2&limit=1&sort=asc"
+# Filter by genre 'Pop'
+curl "http://localhost:3000/artists/today?genre=Pop"
+```
+
 **Behavior when no artists are found:**
 - The API returns a successful response (`success: true`) with an empty `artists` array and `totalArtistsFound: 0`.
 - No error is thrown; metadata fields (`currentDay`, `filterLetter`, `timestamp`) are still included.
