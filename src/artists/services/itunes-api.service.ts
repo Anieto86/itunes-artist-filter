@@ -62,6 +62,15 @@ export class ItunesApiService {
         if (status === 502) message = "Bad Gateway from iTunes API";
         if (status === 504) message = "iTunes API request timed out";
         if (status === 500) message = "Internal server error from iTunes API";
+        // If the error is due to unexpected format, force status 502
+        if (
+          axiosError.response?.data &&
+          typeof axiosError.response.data === "object" &&
+          "results" in axiosError.response.data &&
+          !Array.isArray((axiosError.response.data as { results?: unknown }).results)
+        ) {
+          throw new ItunesApiException("Unexpected iTunes API response format", 502);
+        }
         throw new ItunesApiException(message, status || 503);
       }
       // Unexpected format error
