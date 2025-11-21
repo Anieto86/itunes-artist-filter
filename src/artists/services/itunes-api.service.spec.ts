@@ -46,7 +46,7 @@ describe("ItunesApiService", () => {
     const promise = service.fetchArtists();
     await expect(promise).rejects.toThrow(ItunesApiException);
     await expect(promise).rejects.toMatchObject({
-      response: expect.objectContaining({ statusCode: 502 }),
+      response: expect.objectContaining({ statusCode: 503 }),
     });
   });
 
