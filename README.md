@@ -95,6 +95,9 @@ or
 npm test
 ```
 
+Notes:
+- Jest runs with `maxWorkers: 1` (see `jest.config.js`) to avoid worker shutdown issues on Windows.
+
 All test files should be named `*.spec.ts`.
 Example: `src/shared/services/date.service.spec.ts` tests the day letter logic.
 
@@ -145,6 +148,8 @@ curl "http://localhost:3000/artists/today?sort=asc"
   "currentDay": "Tuesday",
   "filterLetter": "T",
   "totalArtistsFound": 15,
+  "page": 1,
+  "limit": 10,
   "artists": [
     {
       "artistId": 159260351,
