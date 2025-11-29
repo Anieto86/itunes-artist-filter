@@ -108,7 +108,7 @@ export class ArtistsFilterService {
       ),
     );
 
-    // Paginación
+    // Pagination
     const start = (page - 1) * limit;
     const end = start + limit;
     const pagedArtists = filteredArtists.slice(start, end);

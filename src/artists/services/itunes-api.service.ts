@@ -8,8 +8,8 @@ import { ItunesApiException } from "../../common/exceptions/itunes-api.exception
 @Injectable()
 export class ItunesApiService {
   constructor(
-    private httpService: HttpService,
-    private configService: ConfigService,
+    private httpService: HttpService, //HttpService → viene de HttpModule
+    private configService: ConfigService, //ConfigService → viene de ConfigModule
     // private cacheService: CacheService
   ) {}
 
@@ -18,9 +18,11 @@ export class ItunesApiService {
     const timeoutMs = this.configService.get<number>("itunes.timeout", 5000);
     const maxRetries = this.configService.get<number>("itunes.maxRetries", 3);
     const url = `${baseUrl}/search?term=artist&entity=musicArtist`;
+
     try {
       const response = await firstValueFrom(
         this.httpService.get(url).pipe(
+          // Perform the HTTP GET request
           timeout(timeoutMs),
           retry({
             count: maxRetries,
@@ -39,6 +41,7 @@ export class ItunesApiService {
           catchError((err) => throwError(() => err)),
         ),
       );
+
       // Format guard: must be object with results array
       if (!response?.data || !Array.isArray(response.data.results)) {
         throw new ItunesApiException("Unexpected iTunes API response format", 502);
@@ -54,6 +57,7 @@ export class ItunesApiService {
       ) {
         throw new ItunesApiException("iTunes API request timed out", 504);
       }
+
       // Axios error with response
       if (error && typeof error === "object" && "response" in error) {
         const axiosError = error as AxiosError;
@@ -73,6 +77,7 @@ export class ItunesApiService {
         }
         throw new ItunesApiException(message, status || 503);
       }
+
       // Unexpected format error
       if (
         error &&
