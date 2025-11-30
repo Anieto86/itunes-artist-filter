@@ -7,8 +7,8 @@ import { ItunesApiService } from "./itunes-api.service";
 @Injectable()
 export class ArtistsFilterService {
   constructor(
-    private itunesApiService: ItunesApiService,
-    private dateService: DateService,
+    private itunesApiService: ItunesApiService, //fetch artists from iTunes API
+    private dateService: DateService, //get current day and letter
   ) {}
 
   async getFilteredArtists() {
@@ -42,6 +42,7 @@ export class ArtistsFilterService {
   }
 
   async getFilteredArtistsWithMetadata(
+    // enhanced method with pagination, genre filter, sorting
     page = 1,
     limit = 10,
     genre?: string,
@@ -124,6 +125,7 @@ export class ArtistsFilterService {
       amgArtistId?: number;
     }
 
+    // mapper from raw artist to ArtistDto
     const artistDtos: ArtistDto[] = pagedArtists.map(
       (artist: ArtistRaw): ArtistDto => ({
         artistId: artist.artistId,
