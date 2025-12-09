@@ -9,6 +9,7 @@ export class ArtistDto {
   amgArtistId?: number;
 }
 
+//DTO for filtered artists response with metadata
 export class FilteredArtistsResponseDto {
   success!: boolean;
   message!: string;

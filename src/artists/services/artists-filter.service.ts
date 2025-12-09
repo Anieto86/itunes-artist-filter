@@ -22,6 +22,7 @@ export class ArtistsFilterService {
       return [];
     }
 
+    // Filtered artists  per day letter
     const filteredArtists = artistsData.results.filter(
       (artist: ArtistDto) =>
         typeof artist.artistName === "string" &&
@@ -55,6 +56,8 @@ export class ArtistsFilterService {
     const currentDay = this.dateService.getCurrentDay();
     const currentDayLetter = this.dateService.getCurrentDayLetter();
 
+    console.log(artistsData.results);
+
     // Filter artists whose name starts with the current day's letter
     // Format guard: ensure results is an array
     if (!Array.isArray(artistsData?.results)) {
@@ -62,13 +65,16 @@ export class ArtistsFilterService {
       throw new ItunesApiException("Unexpected iTunes API response format", 502);
     }
 
+    // Filtered artists
     let filteredArtists = artistsData.results.filter(
       (artist: ArtistDto) =>
         typeof artist.artistName === "string" &&
         artist.artistName.toUpperCase().startsWith(currentDayLetter),
     );
 
+    // Genre filtering
     if (genre) {
+      console.log(filteredArtists.primaryGenreName, "filteredArtists");
       filteredArtists = filteredArtists.filter(
         (artist: ArtistDto) =>
           typeof artist.primaryGenreName === "string" &&

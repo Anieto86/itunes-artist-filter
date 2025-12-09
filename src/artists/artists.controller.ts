@@ -8,15 +8,18 @@ export class ArtistsController {
 
   @Get("today")
   async getTodayArtists(
+    // Query params for pagination, genre filter, sorting
     @Query("page") page?: string,
     @Query("limit") limit?: string,
     @Query("genre") genre?: string,
     @Query("sort") sort?: "asc" | "desc",
   ): Promise<FilteredArtistsResponseDto> {
+    // Parse query params to numbers with defaults
     const pageNum = page ? parseInt(page, 10) : 1;
     const limitNum = limit ? parseInt(limit, 10) : 10;
     const sortOrder = sort === "desc" ? "desc" : "asc";
     return await this.artistsFilterService.getFilteredArtistsWithMetadata(
+      // pass sanitized params to service
       pageNum,
       limitNum,
       genre,

@@ -17,7 +17,8 @@ export class ItunesApiService {
     const baseUrl = this.configService.get<string>("itunes.baseUrl", "https://itunes.apple.com");
     const timeoutMs = this.configService.get<number>("itunes.timeout", 5000);
     const maxRetries = this.configService.get<number>("itunes.maxRetries", 3);
-    const url = `${baseUrl}/search?term=artist&entity=musicArtist&limit=200`;
+    // Build the iTunes Search API URL plus update limit to 200
+    const url = `${baseUrl}/search?term=artist&entity=musicArtist&limit=100`;
 
     try {
       const response = await firstValueFrom(
